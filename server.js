@@ -113,6 +113,25 @@ app.post("/book", async (req, res) => {
   }
 });
 
+app.delete('/book/:isbn', async (req, res) => {
+  try {
+    let { isbn } = req.params;
+    if (!isbn) return res.status(400).json({ message: 'El ISBN es obligatorio' });
+    isbn = String(isbn).trim().replace(/-/g, '');
+
+    const deleted = await User.findOneAndDelete({ isbn });
+    if (!deleted) {
+      return res.status(404).json({ message: 'No se encontró un libro con ese ISBN' });
+    }
+
+    return res.status(200).json({ message: 'Libro eliminado exitosamente', book: deleted });
+  } catch (error) {
+    console.error('Error al eliminar libro:', error);
+    return res.status(500).json({ message: 'Error al eliminar libro', error: error.message });
+  }
+});
+
+
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });
