@@ -38,7 +38,7 @@ const User = mongoose.model("bibliotec", userSchema);
 
 app.post("/register", async (req, res) => {
   try {
-    console.log("Registrar");
+    
     const { title, author, isbn, imagen, editorial, description } = req.body;
     if (!title || !author || !isbn || !imagen || !editorial || !description) {
       return res
@@ -76,7 +76,7 @@ app.post("/register", async (req, res) => {
 
 app.post("/view", async (req, res) => {
   try {
-    console.log("ver libros");
+    
     const books = await User.find({}).sort({ createdAt: -1 }).lean();
 
     return res.status(201).json({
@@ -93,7 +93,7 @@ app.post("/view", async (req, res) => {
 
 app.post("/book", async (req, res) => {
   try {
-    console.log("Consultar libro");
+    
     const { isbn } = req.body;
 
 
